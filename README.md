@@ -36,7 +36,7 @@ possible.
 
 ### Todos
 
- -	Create a single plugin which can migrate for **adonisJS**, **laravel** etc
+ -	Create a single plugin which can migrate for **adonisjs**, **laravel** etc
  	(For [laravel migrations](https://github.com/beckenrode/mysql-workbench-export-laravel-5-migrations)).
  
  -	Add migrations for frameworks which allows migrations.
@@ -44,6 +44,13 @@ possible.
  -	Create plugin for **SQLPro**.
 
  -	Make everything standalone.
+
+
+Developed By
+---- 
+
+Mahendaran Elangovan (ME-Studio)
+[Contact me](https://mestudio.herokuapp.com/)
 
 License
 ----
