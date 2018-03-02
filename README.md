@@ -49,7 +49,7 @@ possible.
 Developed By
 ---- 
 
-Mahendaran Elangovan [ME-Studio](https://mestudio.herokuapp.com/)
+Mahendaran Elangovan [(ME-Studio)](https://mestudio.herokuapp.com/)
 
 License
 ----
