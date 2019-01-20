@@ -257,10 +257,6 @@ def generate_adonisjs_migration(cat):
                                             timestamps is True or timestamps_nullable is True):
                                 continue
 
-                            if col.name == 'deleted_at':
-                                deleted_at = True
-                                continue
-
                             if col.simpleType:
                                 col_type = col.simpleType.name
                             else:
