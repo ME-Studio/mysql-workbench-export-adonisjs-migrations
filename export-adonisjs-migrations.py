@@ -487,6 +487,7 @@ def generate_adonisjs_migration(cat):
 
     unixTimestamp = time.time()
     for name in sorted(migrations):
+        unixTimestamp += 1
         save_format = '{timestamp}_{tableName}_schema.js'.format(
             timestamp=unixTimestamp,
             tableName=migration_tables[name]
@@ -543,8 +544,8 @@ class GenerateAdonisJSMigrationWizardPreviewPage(WizardPage):
             i = len(glob.glob(path + "/*_schema.js"))
             
             unixTimestamp = time.time()
-            
             for key in sorted(migrations):
+                unixTimestamp += 1
                 try:
                     search_format = "*_{tableName}_schema.js".format(
                         tableName=migration_tables[key]
