@@ -1,6 +1,6 @@
 # MySQL Workbench Export AdonisJS/Knex Migrations Plugin
 
-A MySQL Workbench plugin that allows for exporting a model to **AdonisJS** migrations that follow PSR-2 coding standards. This plugin will be useful while porting from someother framework to **AdonisJS** or any frameworks that uses **Knex library**. When exported, each migration is generated and saved in it's own, properly named, migration file.
+A MySQL Workbench plugin that allows for exporting a model to **AdonisJS** migrations that follow 'standard' ESlint coding standards. This plugin will be useful while porting from someother framework to **AdonisJS** or any frameworks that uses **Knex library**. When exported, each migration is generated and saved in it's own, properly named, migration file.
 
 ### Version
 1.0.0
