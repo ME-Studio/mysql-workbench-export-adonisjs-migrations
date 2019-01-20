@@ -97,41 +97,34 @@ typesDict = {
     'UUID': 'uuid'
 }
 
-migrationTemplate = ''' 'use strict'
+migrationTemplate = ''''use strict'
 
 const Schema = use('Schema')
 
-class {tableNameCamelCase}Schema extends Schema
-{{
-    up()
-    {{
-        this.create('{tableName}', (table) => {{
-        
+class {tableNameCamelCase}Schema extends Schema {{
+  up() {{
+    this.create('{tableName}', (table) => {{
 '''
 
 foreignKeyTemplate = '''
-            table.foreign('{foreignKey}', '{foreignKeyName}')
-                .references('{tableKeyName}').on('{foreignTableName}')
-                .onDelete('{onDeleteAction}')
-                .onUpdate('{onUpdateAction}')
+      table.foreign('{foreignKey}', '{foreignKeyName}')
+        .references('{tableKeyName}').on('{foreignTableName}')
+        .onDelete('{onDeleteAction}')
+        .onUpdate('{onUpdateAction}')
 '''
 
 migrationDownTemplate = '''
-    
-     down()
-     {
+  down() {
 '''
 
 schemaCreateTemplate = '''
-        this.create('{tableName}', (table) =>  {{
-'''
+    this.create('{tableName}', (table) => {{'''
 
 indexKeyTemplate = '''
-            table.{indexType}([{indexColumns}], '{indexName}')
-'''
+      table.{indexType}([{indexColumns}], '{indexName}')'''
 
-migrationEndingTemplate = '''       this.drop('{tableName}')
-     }}
+migrationEndingTemplate = '''    this.drop('{tableName}')
+  }}
 }}
 
 module.exports = {tableNameCamelCase}Schema
@@ -205,7 +198,7 @@ def generate_adonisjs_migration(cat):
                         tableName=table_name
                     ))
 
-                    migrations[ti].append("            table.engine ('{tableEngine}')\n".format(
+                    migrations[ti].append("      table.engine('{tableEngine}')\n".format(
                         tableEngine=table_engine
                     ))
 
@@ -301,10 +294,10 @@ def generate_adonisjs_migration(cat):
 
                             if col.name == 'remember_token' and typesDict[col_type] == 'string' and str(
                                     col.length) == '100':
-                                migrations[ti].append('            table.rememberToken()\n')
+                                migrations[ti].append('      table.rememberToken()\n')
                             elif typesDict[col_type]:
                                 migrations[ti].append(
-                                    '            table.%s(\'%s%s)' % (typesDict[col_type], col.name, col_data))
+                                    '      table.%s(\'%s%s)' % (typesDict[col_type], col.name, col_data))
                                 
                                 # Chain unsigned to the table for all column type with unsigned
                                 if col_type == 'uTINYINT' or col_type == 'uSMALLINT' or col_type == 'uMEDIUMINT' or col_type == 'uINT' or col_type == 'uBIGINT' or col_type == 'uINT1' or col_type == 'uINT2' or col_type == 'uINT3' or col_type == 'uINT4' or col_type == 'uINT8' or col_type == 'uINTEGER':
@@ -332,7 +325,8 @@ def generate_adonisjs_migration(cat):
                                         migrations[ti].append(".defaultTo('{}')".format(default_value))
 
                                 if col.comment != '':
-                                    migrations[ti].append(".comment('{comment}')".format(comment=addslashes(col.comment)))
+                                    mycomment = col.comment.replace('\n', ' ').replace('\r', '')
+                                    migrations[ti].append(".comment('{comment}')".format(comment=addslashes(mycomment)))
 
                                 migrations[ti].append('\n')
 
@@ -340,6 +334,11 @@ def generate_adonisjs_migration(cat):
                                 migrations[ti].append('.primary([id])')
                         except AttributeError:
                             pass
+
+                    if timestamps is True:
+                        migrations[ti].append('      table.timestamps()\n')
+                    elif timestamps_nullable is True:
+                        migrations[ti].append('      table.timestamps()\n')
 
                     # Generate indexes
                     indexes = {"primary": {}, "unique": {}, "index": {}}
@@ -360,17 +359,11 @@ def generate_adonisjs_migration(cat):
                             if len(indexes[index_type][index_name]) != 0:
                                 index_key_template = indexKeyTemplate.format(
                                     indexType=index_type,
-                                    indexColumns=", ".join(['"{}"'.format(column_name) for column_name in
+                                    indexColumns=", ".join(["'{}'".format(column_name) for column_name in
                                                             indexes[index_type][index_name]]),
                                     indexName=index_name
                                 )
                                 migrations[ti].append(index_key_template)
-
-                    
-                    if timestamps is True:
-                        migrations[ti].append('            table.timestamps()\n')
-                    elif timestamps_nullable is True:
-                        migrations[ti].append('            table.timestamps()\n')
 
                     first_foreign_created = False
 
@@ -419,7 +412,7 @@ def generate_adonisjs_migration(cat):
                                     'delete_rule': key.deleteRule
                                 })
 
-                    migrations[ti].append("        })\n")
+                    migrations[ti].append("    })\n")
 
                     for key, val in foreign_keys.iteritems():
                         if key == tbl.name:
@@ -437,7 +430,7 @@ def generate_adonisjs_migration(cat):
                                         )
                                         schema_table = 1
                                     elif foreign_table_name != item['table']:
-                                        migrations[ti].append("        })\n")
+                                        migrations[ti].append("    })\n")
                                         migrations[ti].append('\n')
                                         migrations[ti].append(
                                             schemaCreateTemplate.format(tableName=item['table'])
@@ -452,10 +445,10 @@ def generate_adonisjs_migration(cat):
                                     ))
 
                             if schema_table == 1:
-                                migrations[ti].append("        })\n")
+                                migrations[ti].append("    })\n")
                                 migrations[ti].append('\n')
 
-                    migrations[ti].append('    }\n')
+                    migrations[ti].append('  }\n')
 
                     ##########
                     # Reverse
